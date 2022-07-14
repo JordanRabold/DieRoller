@@ -3,12 +3,26 @@
     /// <summary>
     /// Represents a single six sided die (1 - 6)
     /// </summary>
-    public class SingleDie
+    public class Die
     {
+        private static Random _random; // static member is shared across all instances
+
+        static Die()
+        {
+            _random = new Random();
+        }
+
+        /// <summary>
+        /// Constructor creates the die and rolls it to start with a random number
+        /// </summary>
+        public Die()
+        {
+            Roll();
+        }
         /// <summary>
         /// Current face up value of the die
         /// </summary>
-        public byte FaceValue { get; set; }
+        public byte FaceValue { get; private set; }
 
         /// <summary>
         /// True if the die is currently held
@@ -16,7 +30,8 @@
         public bool IsHeld { get; set; }  
 
         /// <summary>
-        /// Rolls the die and sets the <see cref="FaceValue"/> to the new number.
+        /// Rolls the die and sets the <see cref="FaceValue"/> to the new number
+        /// if the die is not currently held.
         /// Returns the new number.
         /// </summary>
         /// <returns> 
@@ -24,15 +39,17 @@
         /// </returns>
         public byte Roll()
         {
-            // Generate random number
-            // set to face value
+            if (!IsHeld)
+            {
+                // Generate random number
+                byte newValue = (byte)_random.Next(1, 7);
+
+                // set to face value
+                FaceValue = newValue;
+            }
+     
             // return new number
-            throw new NotImplementedException(); // place holder stub
+            return FaceValue;
         }
-       
-
-        // Roll (set a new random face up value)
-
-
     }
 }
